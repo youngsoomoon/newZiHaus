@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 
 const navigation = [
@@ -14,18 +15,36 @@ const navigation = [
 
 export default function Header() {
   const pathname = usePathname();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  // 라우트 변경 시 모바일 메뉴 닫기
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [pathname]);
+
+  // 모바일 메뉴 열렸을 때 스크롤 방지
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [mobileMenuOpen]);
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
       <nav className="container mx-auto flex h-16 items-center justify-between px-4">
         {/* 로고 */}
-        <Link href="/" className="flex items-center space-x-2">
+        <Link href="/" className="flex items-center space-x-2 z-50">
           <div className="text-xl font-bold text-gray-900">
             새로지윤집
           </div>
         </Link>
 
-        {/* 네비게이션 메뉴 */}
+        {/* 데스크톱 네비게이션 메뉴 */}
         <div className="hidden md:flex md:items-center md:space-x-8">
           {navigation.map((item) => (
             <Link
@@ -43,21 +62,72 @@ export default function Header() {
           ))}
         </div>
 
-        {/* 모바일 메뉴 버튼 (추후 구현) */}
-        <button className="md:hidden p-2">
-          <svg
-            className="h-6 w-6"
-            fill="none"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path d="M4 6h16M4 12h16M4 18h16"></path>
-          </svg>
+        {/* 모바일 메뉴 버튼 */}
+        <button
+          className="md:hidden p-2 z-50 relative"
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          aria-label="메뉴 열기/닫기"
+        >
+          {mobileMenuOpen ? (
+            <svg
+              className="h-6 w-6"
+              fill="none"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          ) : (
+            <svg
+              className="h-6 w-6"
+              fill="none"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+          )}
         </button>
       </nav>
+
+      {/* 모바일 메뉴 */}
+      <div
+        className={cn(
+          "fixed inset-0 top-16 z-40 bg-white md:hidden transition-transform duration-300 ease-in-out",
+          mobileMenuOpen ? "translate-x-0" : "translate-x-full"
+        )}
+      >
+        <nav className="flex flex-col p-4 space-y-1">
+          {navigation.map((item) => (
+            <Link
+              key={item.name}
+              href={item.href}
+              className={cn(
+                "px-4 py-3 text-base font-medium rounded-lg transition-colors",
+                pathname === item.href
+                  ? "bg-blue-50 text-blue-600"
+                  : "text-gray-700 hover:bg-gray-50"
+              )}
+            >
+              {item.name}
+            </Link>
+          ))}
+        </nav>
+      </div>
+
+      {/* 모바일 메뉴 오버레이 */}
+      {mobileMenuOpen && (
+        <div
+          className="fixed inset-0 bg-black/20 z-30 md:hidden"
+          onClick={() => setMobileMenuOpen(false)}
+        />
+      )}
     </header>
   );
 }

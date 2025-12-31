@@ -31,16 +31,17 @@ export default function BoardPage() {
   ];
 
   return (
-    <div className="container mx-auto px-4 py-16">
+    <div className="container mx-auto px-4 py-8 md:py-16">
       <div className="max-w-6xl mx-auto">
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-4xl font-bold">게시판</h1>
-          <button className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-8">
+          <h1 className="text-2xl md:text-4xl font-bold">게시판</h1>
+          <button className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors whitespace-nowrap">
             글쓰기
           </button>
         </div>
 
-        <div className="bg-white border rounded-lg overflow-hidden">
+        {/* 데스크톱 테이블 뷰 */}
+        <div className="hidden md:block bg-white border rounded-lg overflow-hidden">
           <table className="w-full">
             <thead className="bg-gray-50 border-b">
               <tr>
@@ -85,22 +86,46 @@ export default function BoardPage() {
           </table>
         </div>
 
+        {/* 모바일 카드 뷰 */}
+        <div className="md:hidden space-y-4">
+          {posts.map((post) => (
+            <div
+              key={post.id}
+              className="bg-white border rounded-lg p-4 hover:shadow-md transition-shadow cursor-pointer"
+            >
+              <div className="flex justify-between items-start mb-2">
+                <h3 className="font-semibold text-gray-900 flex-1">
+                  {post.title}
+                </h3>
+                <span className="text-xs text-gray-500 ml-2">#{post.id}</span>
+              </div>
+              <div className="flex justify-between items-center text-sm text-gray-600">
+                <div className="flex gap-3">
+                  <span>{post.author}</span>
+                  <span>{post.date}</span>
+                </div>
+                <span className="text-gray-500">조회 {post.views}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+
         {/* 페이지네이션 */}
         <div className="mt-8 flex justify-center">
-          <div className="flex space-x-2">
-            <button className="px-4 py-2 border rounded-lg hover:bg-gray-50">
+          <div className="flex gap-2">
+            <button className="px-3 md:px-4 py-2 border rounded-lg hover:bg-gray-50 text-sm">
               이전
             </button>
-            <button className="px-4 py-2 bg-blue-600 text-white rounded-lg">
+            <button className="px-3 md:px-4 py-2 bg-blue-600 text-white rounded-lg text-sm">
               1
             </button>
-            <button className="px-4 py-2 border rounded-lg hover:bg-gray-50">
+            <button className="px-3 md:px-4 py-2 border rounded-lg hover:bg-gray-50 text-sm">
               2
             </button>
-            <button className="px-4 py-2 border rounded-lg hover:bg-gray-50">
+            <button className="px-3 md:px-4 py-2 border rounded-lg hover:bg-gray-50 text-sm">
               3
             </button>
-            <button className="px-4 py-2 border rounded-lg hover:bg-gray-50">
+            <button className="px-3 md:px-4 py-2 border rounded-lg hover:bg-gray-50 text-sm">
               다음
             </button>
           </div>

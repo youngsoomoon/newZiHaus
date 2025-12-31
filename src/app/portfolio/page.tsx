@@ -28,9 +28,9 @@ export default function PortfolioPage() {
   ];
 
   return (
-    <div className="container mx-auto px-4 py-16">
+    <div className="container mx-auto px-4 py-8 md:py-16">
       <div className="max-w-6xl mx-auto">
-        <h1 className="text-4xl font-bold mb-4">포트폴리오</h1>
+        <h1 className="text-3xl md:text-4xl font-bold mb-4">포트폴리오</h1>
         <p className="text-gray-600 mb-12">
           우리가 진행한 프로젝트를 확인해보세요.
         </p>

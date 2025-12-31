@@ -25,9 +25,9 @@ export default function ConsultingPage() {
   ];
 
   return (
-    <div className="container mx-auto px-4 py-16">
+    <div className="container mx-auto px-4 py-8 md:py-16">
       <div className="max-w-6xl mx-auto">
-        <h1 className="text-4xl font-bold mb-4">컨설팅</h1>
+        <h1 className="text-3xl md:text-4xl font-bold mb-4">컨설팅</h1>
         <p className="text-gray-600 mb-12">
           전문적인 컨설팅 서비스로 귀사의 성장을 돕겠습니다.
         </p>

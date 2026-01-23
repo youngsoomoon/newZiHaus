@@ -6,23 +6,61 @@ import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 
 const navigation = [
-  { name: "소개", href: "/about" },
-  { name: "포트폴리오", href: "/portfolio" },
-  { name: "컨설팅", href: "/consulting" },
-  { name: "컨택", href: "/contact" },
-  { name: "게시판", href: "/board" },
+  {
+    name: "소개",
+    href: "/about",
+    icon: (
+      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+    ),
+  },
+  {
+    name: "포트폴리오",
+    href: "/portfolio",
+    icon: (
+      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+      </svg>
+    ),
+  },
+  {
+    name: "컨설팅",
+    href: "/consulting",
+    icon: (
+      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+      </svg>
+    ),
+  },
+  {
+    name: "컨택",
+    href: "/contact",
+    icon: (
+      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+      </svg>
+    ),
+  },
+  {
+    name: "게시판",
+    href: "/board",
+    icon: (
+      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+      </svg>
+    ),
+  },
 ];
 
 export default function Header() {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  // 라우트 변경 시 모바일 메뉴 닫기
   useEffect(() => {
     setMobileMenuOpen(false);
   }, [pathname]);
 
-  // 모바일 메뉴 열렸을 때 스크롤 방지
   useEffect(() => {
     if (mobileMenuOpen) {
       document.body.style.overflow = "hidden";
@@ -39,25 +77,27 @@ export default function Header() {
       <nav className="container mx-auto flex h-16 items-center justify-between px-4">
         {/* 로고 */}
         <Link href="/" className="flex items-center space-x-2 z-50">
-          <div className="text-xl font-bold text-gray-900">
-            새로지윤집
-          </div>
+          <div className="text-xl font-bold text-gray-900">새로지윤집</div>
         </Link>
 
         {/* 데스크톱 네비게이션 메뉴 */}
-        <div className="hidden md:flex md:items-center md:space-x-8">
+        <div className="hidden md:flex md:items-center md:space-x-2">
           {navigation.map((item) => (
             <Link
               key={item.name}
               href={item.href}
               className={cn(
-                "text-sm font-medium transition-colors hover:text-gray-900",
+                "group relative flex items-center justify-center w-10 h-10 rounded-full transition-all duration-300",
                 pathname === item.href
-                  ? "text-gray-900"
-                  : "text-gray-600"
+                  ? "text-gray-900 bg-gray-100"
+                  : "text-gray-500 hover:text-gray-900 hover:bg-gray-50"
               )}
             >
-              {item.name}
+              {item.icon}
+              {/* Tooltip */}
+              <span className="absolute -bottom-8 left-1/2 -translate-x-1/2 px-2 py-1 text-xs font-medium text-white bg-gray-900 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap pointer-events-none">
+                {item.name}
+              </span>
             </Link>
           ))}
         </div>
@@ -96,38 +136,31 @@ export default function Header() {
         </button>
       </nav>
 
-      {/* 모바일 메뉴 */}
+      {/* 모바일 메뉴 - 풀스크린 */}
       <div
         className={cn(
-          "fixed inset-0 top-16 z-40 bg-white md:hidden transition-transform duration-300 ease-in-out",
-          mobileMenuOpen ? "translate-x-0" : "translate-x-full"
+          "fixed inset-0 z-40 bg-white md:hidden transition-opacity duration-300 ease-in-out",
+          mobileMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
         )}
       >
-        <nav className="flex flex-col p-4 space-y-1">
+        <nav className="flex flex-col items-center justify-center h-full gap-6">
           {navigation.map((item) => (
             <Link
               key={item.name}
               href={item.href}
               className={cn(
-                "px-4 py-3 text-base font-medium rounded-lg transition-colors",
+                "flex items-center gap-4 text-xl font-medium transition-colors",
                 pathname === item.href
-                  ? "bg-blue-50 text-blue-600"
-                  : "text-gray-700 hover:bg-gray-50"
+                  ? "text-gray-900"
+                  : "text-gray-500 hover:text-gray-900"
               )}
             >
+              <span className="text-gray-400">{item.icon}</span>
               {item.name}
             </Link>
           ))}
         </nav>
       </div>
-
-      {/* 모바일 메뉴 오버레이 */}
-      {mobileMenuOpen && (
-        <div
-          className="fixed inset-0 bg-black/20 z-30 md:hidden"
-          onClick={() => setMobileMenuOpen(false)}
-        />
-      )}
     </header>
   );
 }

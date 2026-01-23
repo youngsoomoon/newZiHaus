@@ -2,135 +2,169 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "게시판 - 새로지윤집",
-  description: "새로지윤집 게시판",
+  description: "새로지윤집 공지사항 및 시공후기",
 };
 
+const posts = [
+  {
+    id: 1,
+    category: "공지",
+    title: "2026년 설 연휴 휴무 안내",
+    date: "2026-01-20",
+    thumbnail: null,
+  },
+  {
+    id: 2,
+    category: "시공후기",
+    title: "강남구 32평 아파트 전체 리모델링 후기",
+    date: "2026-01-18",
+    thumbnail: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=400&q=80",
+  },
+  {
+    id: 3,
+    category: "시공후기",
+    title: "분당 45평 주방·거실 인테리어 완료",
+    date: "2026-01-15",
+    thumbnail: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=400&q=80",
+  },
+  {
+    id: 4,
+    category: "공지",
+    title: "신규 파트너 자재 업체 안내",
+    date: "2026-01-10",
+    thumbnail: null,
+  },
+  {
+    id: 5,
+    category: "시공후기",
+    title: "마포구 24평 신혼집 인테리어",
+    date: "2026-01-08",
+    thumbnail: "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=400&q=80",
+  },
+  {
+    id: 6,
+    category: "시공후기",
+    title: "용산구 펜트하우스 럭셔리 인테리어",
+    date: "2026-01-05",
+    thumbnail: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=400&q=80",
+  },
+];
+
 export default function BoardPage() {
-  const posts = [
-    {
-      id: 1,
-      title: "첫 번째 게시글입니다",
-      author: "관리자",
-      date: "2025-01-01",
-      views: 123,
-    },
-    {
-      id: 2,
-      title: "공지사항",
-      author: "관리자",
-      date: "2025-01-02",
-      views: 456,
-    },
-    {
-      id: 3,
-      title: "자주 묻는 질문",
-      author: "관리자",
-      date: "2025-01-03",
-      views: 789,
-    },
-  ];
-
   return (
-    <div className="container mx-auto px-4 py-8 md:py-16">
-      <div className="max-w-6xl mx-auto">
-        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-8">
-          <h1 className="text-2xl md:text-4xl font-bold">게시판</h1>
-          <button className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors whitespace-nowrap">
-            글쓰기
-          </button>
+    <div>
+      {/* Hero Section */}
+      <section className="py-16 md:py-24 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <div className="max-w-3xl">
+            <h1 className="text-3xl md:text-4xl font-bold mb-4">게시판</h1>
+            <p className="text-gray-600 text-lg">
+              공지사항과 시공 후기를 확인하세요.
+            </p>
+          </div>
         </div>
+      </section>
 
-        {/* 데스크톱 테이블 뷰 */}
-        <div className="hidden md:block bg-white border rounded-lg overflow-hidden">
-          <table className="w-full">
-            <thead className="bg-gray-50 border-b">
-              <tr>
-                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900 w-20">
-                  번호
-                </th>
-                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">
-                  제목
-                </th>
-                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900 w-32">
-                  작성자
-                </th>
-                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900 w-32">
-                  작성일
-                </th>
-                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900 w-24">
-                  조회수
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y">
-              {posts.map((post) => (
-                <tr key={post.id} className="hover:bg-gray-50 cursor-pointer">
-                  <td className="px-6 py-4 text-sm text-gray-900">
-                    {post.id}
-                  </td>
-                  <td className="px-6 py-4 text-sm text-gray-900">
-                    {post.title}
-                  </td>
-                  <td className="px-6 py-4 text-sm text-gray-600">
-                    {post.author}
-                  </td>
-                  <td className="px-6 py-4 text-sm text-gray-600">
-                    {post.date}
-                  </td>
-                  <td className="px-6 py-4 text-sm text-gray-600">
-                    {post.views}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-
-        {/* 모바일 카드 뷰 */}
-        <div className="md:hidden space-y-4">
-          {posts.map((post) => (
-            <div
-              key={post.id}
-              className="bg-white border rounded-lg p-4 hover:shadow-md transition-shadow cursor-pointer"
-            >
-              <div className="flex justify-between items-start mb-2">
-                <h3 className="font-semibold text-gray-900 flex-1">
-                  {post.title}
-                </h3>
-                <span className="text-xs text-gray-500 ml-2">#{post.id}</span>
-              </div>
-              <div className="flex justify-between items-center text-sm text-gray-600">
-                <div className="flex gap-3">
-                  <span>{post.author}</span>
-                  <span>{post.date}</span>
-                </div>
-                <span className="text-gray-500">조회 {post.views}</span>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* 페이지네이션 */}
-        <div className="mt-8 flex justify-center">
-          <div className="flex gap-2">
-            <button className="px-3 md:px-4 py-2 border rounded-lg hover:bg-gray-50 text-sm">
-              이전
+      {/* Filter Tabs */}
+      <section className="border-b">
+        <div className="container mx-auto px-4">
+          <div className="flex gap-8">
+            <button className="py-4 text-sm font-medium border-b-2 border-gray-900">
+              전체
             </button>
-            <button className="px-3 md:px-4 py-2 bg-blue-600 text-white rounded-lg text-sm">
-              1
+            <button className="py-4 text-sm font-medium text-gray-500 hover:text-gray-700 transition-colors">
+              공지사항
             </button>
-            <button className="px-3 md:px-4 py-2 border rounded-lg hover:bg-gray-50 text-sm">
-              2
-            </button>
-            <button className="px-3 md:px-4 py-2 border rounded-lg hover:bg-gray-50 text-sm">
-              3
-            </button>
-            <button className="px-3 md:px-4 py-2 border rounded-lg hover:bg-gray-50 text-sm">
-              다음
+            <button className="py-4 text-sm font-medium text-gray-500 hover:text-gray-700 transition-colors">
+              시공후기
             </button>
           </div>
         </div>
-      </div>
+      </section>
+
+      {/* Posts Grid */}
+      <section className="py-12">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {posts.map((post) => (
+              <article
+                key={post.id}
+                className="group cursor-pointer"
+              >
+                {/* Thumbnail */}
+                <div className="aspect-[16/10] rounded-lg overflow-hidden mb-4 bg-gray-100">
+                  {post.thumbnail ? (
+                    <div
+                      className="w-full h-full bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
+                      style={{ backgroundImage: `url(${post.thumbnail})` }}
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center">
+                      <svg
+                        className="w-12 h-12 text-gray-300"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth="1"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                        />
+                      </svg>
+                    </div>
+                  )}
+                </div>
+
+                {/* Content */}
+                <div>
+                  <div className="flex items-center gap-3 mb-2">
+                    <span
+                      className={`text-xs font-medium px-2 py-1 rounded ${
+                        post.category === "공지"
+                          ? "bg-gray-900 text-white"
+                          : "bg-gray-100 text-gray-600"
+                      }`}
+                    >
+                      {post.category}
+                    </span>
+                    <span className="text-sm text-gray-400">{post.date}</span>
+                  </div>
+                  <h3 className="font-medium group-hover:text-gray-600 transition-colors line-clamp-2">
+                    {post.title}
+                  </h3>
+                </div>
+              </article>
+            ))}
+          </div>
+
+          {/* Pagination */}
+          <div className="mt-16 flex justify-center">
+            <div className="flex items-center gap-2">
+              <button className="w-10 h-10 flex items-center justify-center rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors">
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+                </svg>
+              </button>
+              <button className="w-10 h-10 flex items-center justify-center rounded-lg bg-gray-900 text-white text-sm font-medium">
+                1
+              </button>
+              <button className="w-10 h-10 flex items-center justify-center rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors text-sm">
+                2
+              </button>
+              <button className="w-10 h-10 flex items-center justify-center rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors text-sm">
+                3
+              </button>
+              <button className="w-10 h-10 flex items-center justify-center rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors">
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
